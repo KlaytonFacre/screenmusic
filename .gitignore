@@ -34,3 +34,6 @@ build/
 
 ### API KEYS ###
 src/main/resources/api-keys.properties
+
+### DATABASE CREDENTIALS ###
+src/main/resources/database-credentials.properties
