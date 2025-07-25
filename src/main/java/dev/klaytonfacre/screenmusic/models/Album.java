@@ -34,6 +34,7 @@ public class Album {
 
     public void setName(String name) {
         this.name = name;
+        this.coverUrl = "";
     }
 
     public String getCoverUrl() {
