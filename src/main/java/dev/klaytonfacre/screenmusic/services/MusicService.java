@@ -20,7 +20,6 @@ public class MusicService {
 
     public Music make(String title, MusicType type, String artistName, String albumName) {
         Artist artist = artistService.searchByName(artistName).get(0);
-
         Music music = new Music(title, type, artist, null);
         return music;
     }
@@ -31,5 +30,9 @@ public class MusicService {
 
     public List<Music> searchByName(String name) {
         return musicRepository.findByTitleContainingIgnoreCase(name);
+    }
+
+    public List<Music> searchByAlbum(String albumName) {
+        return musicRepository.findByAlbum_NameContainingIgnoreCase(albumName);
     }
 }

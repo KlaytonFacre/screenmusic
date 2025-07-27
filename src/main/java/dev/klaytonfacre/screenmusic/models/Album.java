@@ -17,6 +17,7 @@ public class Album {
 
     public Album(String name) {
         setName(name);
+        setCoverUrl("");
     }
 
     public Album(String name, String coverUrl) {
@@ -32,16 +33,15 @@ public class Album {
         return name;
     }
 
-    public void setName(String name) {
+    private void setName(String name) {
         this.name = name;
-        this.coverUrl = "";
     }
 
     public String getCoverUrl() {
         return coverUrl;
     }
 
-    public void setCoverUrl(String coverUrl) {
+    private void setCoverUrl(String coverUrl) {
         this.coverUrl = coverUrl;
     }
 }

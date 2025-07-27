@@ -37,9 +37,11 @@ public class UserInterface {
     private void showMenuOptions() {
         System.out.println("Bem-vindo ao ScreenMusic!");
         System.out.println("1. Criar Artista no Banco de Dados");
-        System.out.println("2. Consultar Biografia de Artista");
-        System.out.println("3. Criar Música no Banco de Dados");
-        System.out.println("4. Listar Músicas do Banco de Dados");
+        System.out.println("2. Criar Álbum no Banco de Dados");
+        System.out.println("3. Consultar Biografia de Artista");
+        System.out.println("4. Criar Música no Banco de Dados");
+        System.out.println("5. Buscar Músicas do Banco de Dados");
+        System.out.println("6. Buscar Álbum do Banco de Dados");
 
         System.out.println("0. Sair");
     }
@@ -59,20 +61,26 @@ public class UserInterface {
                 createArtistWorkflow();
                 break;
             case 2:
-                searchArtistBioWorkflow();
+                createAlbumWorkflow();
                 break;
             case 3:
-                createMusicWorkflow();
+                searchArtistBioWorkflow();
                 break;
             case 4:
+                createMusicWorkflow();
+                break;
+            case 5:
                 searchMusicWorkflow();
+                break;
+            case 6:
+                searchAlbumWorkflow();
                 break;
             default:
                 System.out.println("Opção inválida. Tente novamente.");
         }
     }
 
-    private void createArtistWorkflow() {
+        private void createArtistWorkflow() {
         String creatingName = getSomeStringFromUser("Digite o nome do artista: ");
         String creatingType = getArtistTypeFromUser();
         var artist = artistService.make(creatingName, ArtistType.fromString(creatingType));
@@ -114,10 +122,20 @@ public class UserInterface {
 
     private void createAlbumWorkflow() {
         String creatingAlbumName = getSomeStringFromUser("Digite o nome do álbum: ");
-        String creatingArtistName = getSomeStringFromUser("Digite o nome do artista: ");
         var album = albumService.make(creatingAlbumName);
-        musicService.saveAlbum(album);
-        System.out.printf("Álbum criado com sucesso! ID: %s, Nome: %s, Artista: %s\n", album.getId(), album.getName(), album.getArtist().getName());
+        albumService.save(album);
+        System.out.printf("Álbum criado com sucesso! ID: %s, Nome: %s, Capa: %s\n", album.getId(), album.getName(), album.getCoverUrl());
+    }
+
+    private void searchAlbumWorkflow() {
+        String searchAlbumName = getSomeStringFromUser("Digite o nome do álbum para buscar: ");
+        var musics = musicService.searchByAlbum(searchAlbumName);
+        if (musics.isEmpty()) {
+            System.out.println("Nenhum álbum encontrado com esse nome.");
+        } else {
+            System.out.println("Músicas do Álbum: ");
+            musics.forEach(System.out::println);
+        }
     }
 
     private String getSomeStringFromUser(String prompt) {

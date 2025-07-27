@@ -1,11 +1,7 @@
 package dev.klaytonfacre.screenmusic.services;
 
 import dev.klaytonfacre.screenmusic.models.Album;
-import dev.klaytonfacre.screenmusic.models.Artist;
-import dev.klaytonfacre.screenmusic.models.Music;
-import dev.klaytonfacre.screenmusic.models.MusicType;
 import dev.klaytonfacre.screenmusic.repositories.AlbumRepository;
-import dev.klaytonfacre.screenmusic.repositories.MusicRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
