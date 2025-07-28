@@ -1,5 +1,6 @@
 package dev.klaytonfacre.screenmusic.services;
 
+import dev.klaytonfacre.screenmusic.exceptions.AlbumNotFoundException;
 import dev.klaytonfacre.screenmusic.models.AlbumModel;
 import dev.klaytonfacre.screenmusic.repositories.AlbumRepository;
 import org.springframework.stereotype.Service;

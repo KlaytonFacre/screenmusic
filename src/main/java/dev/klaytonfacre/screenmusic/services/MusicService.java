@@ -1,5 +1,7 @@
 package dev.klaytonfacre.screenmusic.services;
 
+import dev.klaytonfacre.screenmusic.exceptions.AlbumNotFoundException;
+import dev.klaytonfacre.screenmusic.exceptions.ArtistNotFoundException;
 import dev.klaytonfacre.screenmusic.models.AlbumModel;
 import dev.klaytonfacre.screenmusic.models.ArtistModel;
 import dev.klaytonfacre.screenmusic.models.MusicModel;
@@ -9,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class MusicService {
@@ -23,9 +26,17 @@ public class MusicService {
     }
 
     public MusicModel make(String title, MusicType type, String artistName, String albumName) {
-        ArtistModel artistModel = artistService.searchByName(artistName).get(0);
-        AlbumModel albumModel = albumService.searchByName(albumName).get(0);
-        MusicModel musicModel = new MusicModel(title, type, artistModel, albumModel);
+        List<ArtistModel> artistModel = artistService.searchByName(artistName);
+        if (artistModel.isEmpty()) {
+            throw new ArtistNotFoundException();
+        }
+
+        List<AlbumModel> albumModel = albumService.searchByName(albumName);
+        if (albumModel.isEmpty()) {
+            throw new AlbumNotFoundException();
+        }
+
+        MusicModel musicModel = new MusicModel(title, type, artistModel.get(0), albumModel.get(0));
         return musicModel;
     }
 
@@ -39,5 +50,9 @@ public class MusicService {
 
     public List<MusicModel> searchByAlbum(String albumName) {
         return musicRepository.findByAlbum_NameContainingIgnoreCase(albumName);
+    }
+
+    public List<MusicModel> searchByArtist(String artistName) {
+        return musicRepository.findByArtist_NameContainingIgnoreCase(artistName);
     }
 }

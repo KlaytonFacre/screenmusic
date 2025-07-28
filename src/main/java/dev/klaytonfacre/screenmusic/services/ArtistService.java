@@ -1,5 +1,6 @@
 package dev.klaytonfacre.screenmusic.services;
 
+import dev.klaytonfacre.screenmusic.exceptions.ArtistNotFoundException;
 import dev.klaytonfacre.screenmusic.models.ArtistModel;
 import dev.klaytonfacre.screenmusic.models.types.ArtistType;
 import dev.klaytonfacre.screenmusic.repositories.ArtistRepository;

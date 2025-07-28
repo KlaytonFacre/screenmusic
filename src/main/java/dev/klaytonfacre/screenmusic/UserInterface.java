@@ -1,5 +1,7 @@
 package dev.klaytonfacre.screenmusic;
 
+import dev.klaytonfacre.screenmusic.exceptions.AlbumNotFoundException;
+import dev.klaytonfacre.screenmusic.exceptions.ArtistNotFoundException;
 import dev.klaytonfacre.screenmusic.models.AlbumModel;
 import dev.klaytonfacre.screenmusic.models.MusicModel;
 import dev.klaytonfacre.screenmusic.models.types.ArtistType;
@@ -110,9 +112,13 @@ public class UserInterface {
         String creatingMusicType = getMusicTypeFromUser();
         String creatingArtistName = getSomeStringFromUser("Digite o nome do artista: ");
         String creatingAlbumName = getSomeStringFromUser("Digite o nome do álbum (opcional, pressione Enter para pular): ");
-        var music = musicService.make(creatingMusicTitle, MusicType.fromString(creatingMusicType), creatingArtistName, creatingAlbumName);
-        musicService.save(music);
-        System.out.printf("Música criada com sucesso! ID: %s, Título: %s, Tipo: %s, Artista: %s\n", music.getId(), music.getTitle(), music.getType(), music.getArtist().getName());
+        try {
+            var music = musicService.make(creatingMusicTitle, MusicType.fromString(creatingMusicType), creatingArtistName, creatingAlbumName);
+            musicService.save(music);
+            System.out.printf("Música criada com sucesso! ID: %s, Título: %s, Tipo: %s, Artista: %s\n", music.getId(), music.getTitle(), music.getType(), music.getArtist().getName());
+        } catch (ArtistNotFoundException | AlbumNotFoundException e) {
+            System.out.println("Erro: " + e.getMessage());
+        }
     }
 
     private void searchMusicWorkflow() {
