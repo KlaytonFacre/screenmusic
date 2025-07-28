@@ -11,7 +11,6 @@ public class Music {
     private String title;
     @Enumerated(EnumType.STRING)
     private MusicType type;
-
     @ManyToOne
     @JoinColumn(name = "artist_id", nullable = false)
     private Artist artist;

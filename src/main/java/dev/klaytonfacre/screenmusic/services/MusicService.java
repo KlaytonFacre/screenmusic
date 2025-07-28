@@ -1,26 +1,31 @@
 package dev.klaytonfacre.screenmusic.services;
 
+import dev.klaytonfacre.screenmusic.models.Album;
 import dev.klaytonfacre.screenmusic.models.Artist;
 import dev.klaytonfacre.screenmusic.models.Music;
 import dev.klaytonfacre.screenmusic.models.MusicType;
 import dev.klaytonfacre.screenmusic.repositories.MusicRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class MusicService {
-    private final ArtistService artistService;
+    @Autowired
+    private ArtistService artistService;
+    @Autowired
+    private AlbumService albumService;
     private final MusicRepository musicRepository;
 
-    public MusicService(MusicRepository musicRepository, ArtistService artistService) {
+    public MusicService(MusicRepository musicRepository) {
         this.musicRepository = musicRepository;
-        this.artistService = artistService;
     }
 
     public Music make(String title, MusicType type, String artistName, String albumName) {
         Artist artist = artistService.searchByName(artistName).get(0);
-        Music music = new Music(title, type, artist, null);
+        Album album = albumService.searchByName(albumName).get(0);
+        Music music = new Music(title, type, artist, album);
         return music;
     }
 
