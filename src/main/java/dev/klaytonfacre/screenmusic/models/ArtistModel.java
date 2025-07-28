@@ -1,12 +1,11 @@
 package dev.klaytonfacre.screenmusic.models;
 
-import dev.klaytonfacre.screenmusic.services.ConsultaChatGPT;
+import dev.klaytonfacre.screenmusic.models.types.ArtistType;
 import jakarta.persistence.*;
-import org.springframework.beans.factory.annotation.Autowired;
 
 @Entity
 @Table(name = "artists")
-public class Artist {
+public class ArtistModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -15,11 +14,11 @@ public class Artist {
     private ArtistType type;
     private String bio;
 
-    public Artist() {
+    public ArtistModel() {
         // JPA required constructor
     }
 
-    public Artist(String name, ArtistType type, String bio) {
+    public ArtistModel(String name, ArtistType type, String bio) {
         setName(name);
         setType(type);
         setBio(bio);

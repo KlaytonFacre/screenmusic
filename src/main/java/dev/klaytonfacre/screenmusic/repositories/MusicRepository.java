@@ -1,12 +1,12 @@
 package dev.klaytonfacre.screenmusic.repositories;
 
-import dev.klaytonfacre.screenmusic.models.Music;
+import dev.klaytonfacre.screenmusic.models.MusicModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface MusicRepository extends JpaRepository<Music, Long> {
-    List<Music> findByTitleContainingIgnoreCase(String title);
+public interface MusicRepository extends JpaRepository<MusicModel, Long> {
+    List<MusicModel> findByTitleContainingIgnoreCase(String title);
 
-    List<Music> findByAlbum_NameContainingIgnoreCase(String albumName);
+    List<MusicModel> findByAlbum_NameContainingIgnoreCase(String albumName);
 }

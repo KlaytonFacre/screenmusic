@@ -1,4 +1,4 @@
-package dev.klaytonfacre.screenmusic.models;
+package dev.klaytonfacre.screenmusic.models.types;
 
 public enum ArtistType {
     SOLO("SOLO"),

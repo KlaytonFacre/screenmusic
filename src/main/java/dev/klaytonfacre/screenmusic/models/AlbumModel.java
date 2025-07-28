@@ -4,23 +4,23 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "albums")
-public class Album {
+public class AlbumModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
     private String coverUrl;
 
-    public Album() {
+    public AlbumModel() {
         // JPA required constructor
     }
 
-    public Album(String name) {
+    public AlbumModel(String name) {
         setName(name);
         setCoverUrl("");
     }
 
-    public Album(String name, String coverUrl) {
+    public AlbumModel(String name, String coverUrl) {
         setName(name);
         setCoverUrl(coverUrl);
     }

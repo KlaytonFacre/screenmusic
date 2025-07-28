@@ -1,10 +1,11 @@
 package dev.klaytonfacre.screenmusic.models;
 
+import dev.klaytonfacre.screenmusic.models.types.MusicType;
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "musics")
-public class Music {
+public class MusicModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -13,19 +14,19 @@ public class Music {
     private MusicType type;
     @ManyToOne
     @JoinColumn(name = "artist_id", nullable = false)
-    private Artist artist;
+    private ArtistModel artistModel;
     @JoinColumn(name = "album_id")
     @ManyToOne
-    private Album album;
+    private AlbumModel album;
 
-    public Music() {
+    public MusicModel() {
         // JPA required contructor
     }
 
-    public Music(String title, MusicType type, Artist artist, Album album) {
+    public MusicModel(String title, MusicType type, ArtistModel artistModel, AlbumModel album) {
         setTitle(title);
         setType(type);
-        setArtist(artist);
+        setArtist(artistModel);
         setAlbum(album);
     }
 
@@ -49,24 +50,24 @@ public class Music {
         this.type = type;
     }
 
-    public Artist getArtist() {
-        return artist;
+    public ArtistModel getArtist() {
+        return artistModel;
     }
 
-    public void setArtist(Artist artist) {
-        this.artist = artist;
+    public void setArtist(ArtistModel artistModel) {
+        this.artistModel = artistModel;
     }
 
-    public Album getAlbum() {
+    public AlbumModel getAlbum() {
         return album;
     }
 
-    public void setAlbum(Album album) {
-        this.album = album;
+    public void setAlbum(AlbumModel albumModel) {
+        this.album = albumModel;
     }
 
     @Override
     public String toString() {
-        return "ID: %s, Título: %s, Tipo: %s, Artista: %s".formatted(id, title, type, artist.getName());
+        return "ID: %s, Título: %s, Tipo: %s, Artista: %s".formatted(id, title, type, artistModel.getName());
     }
 }

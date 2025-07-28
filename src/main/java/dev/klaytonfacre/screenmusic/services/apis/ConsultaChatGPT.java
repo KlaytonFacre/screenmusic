@@ -1,4 +1,4 @@
-package dev.klaytonfacre.screenmusic.services;
+package dev.klaytonfacre.screenmusic.services.apis;
 
 import okhttp3.*;
 import org.json.JSONArray;

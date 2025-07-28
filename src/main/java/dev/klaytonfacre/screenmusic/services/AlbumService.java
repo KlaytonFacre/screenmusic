@@ -1,6 +1,6 @@
 package dev.klaytonfacre.screenmusic.services;
 
-import dev.klaytonfacre.screenmusic.models.Album;
+import dev.klaytonfacre.screenmusic.models.AlbumModel;
 import dev.klaytonfacre.screenmusic.repositories.AlbumRepository;
 import org.springframework.stereotype.Service;
 
@@ -14,16 +14,16 @@ public class AlbumService {
         this.albumRepository = albumRepository;
     }
 
-    public Album make(String name) {
-        Album album = new Album(name);
-        return album;
+    public AlbumModel make(String name) {
+        AlbumModel albumModel = new AlbumModel(name);
+        return albumModel;
     }
 
-    public Album save(Album album) {
-        return albumRepository.save(album);
+    public AlbumModel save(AlbumModel albumModel) {
+        return albumRepository.save(albumModel);
     }
 
-    public List<Album> searchByName(String name) {
+    public List<AlbumModel> searchByName(String name) {
         return albumRepository.findByNameContainingIgnoreCase(name);
     }
 }

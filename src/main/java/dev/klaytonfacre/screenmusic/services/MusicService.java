@@ -1,9 +1,9 @@
 package dev.klaytonfacre.screenmusic.services;
 
-import dev.klaytonfacre.screenmusic.models.Album;
-import dev.klaytonfacre.screenmusic.models.Artist;
-import dev.klaytonfacre.screenmusic.models.Music;
-import dev.klaytonfacre.screenmusic.models.MusicType;
+import dev.klaytonfacre.screenmusic.models.AlbumModel;
+import dev.klaytonfacre.screenmusic.models.ArtistModel;
+import dev.klaytonfacre.screenmusic.models.MusicModel;
+import dev.klaytonfacre.screenmusic.models.types.MusicType;
 import dev.klaytonfacre.screenmusic.repositories.MusicRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,22 +22,22 @@ public class MusicService {
         this.musicRepository = musicRepository;
     }
 
-    public Music make(String title, MusicType type, String artistName, String albumName) {
-        Artist artist = artistService.searchByName(artistName).get(0);
-        Album album = albumService.searchByName(albumName).get(0);
-        Music music = new Music(title, type, artist, album);
-        return music;
+    public MusicModel make(String title, MusicType type, String artistName, String albumName) {
+        ArtistModel artistModel = artistService.searchByName(artistName).get(0);
+        AlbumModel albumModel = albumService.searchByName(albumName).get(0);
+        MusicModel musicModel = new MusicModel(title, type, artistModel, albumModel);
+        return musicModel;
     }
 
-    public Music save(Music music) {
-        return musicRepository.save(music);
+    public MusicModel save(MusicModel musicModel) {
+        return musicRepository.save(musicModel);
     }
 
-    public List<Music> searchByName(String name) {
+    public List<MusicModel> searchByName(String name) {
         return musicRepository.findByTitleContainingIgnoreCase(name);
     }
 
-    public List<Music> searchByAlbum(String albumName) {
+    public List<MusicModel> searchByAlbum(String albumName) {
         return musicRepository.findByAlbum_NameContainingIgnoreCase(albumName);
     }
 }

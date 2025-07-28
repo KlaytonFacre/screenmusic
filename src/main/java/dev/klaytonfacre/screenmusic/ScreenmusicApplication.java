@@ -1,10 +1,5 @@
 package dev.klaytonfacre.screenmusic;
 
-import dev.klaytonfacre.screenmusic.models.ArtistType;
-import dev.klaytonfacre.screenmusic.repositories.ArtistRepository;
-import dev.klaytonfacre.screenmusic.services.ConsultaChatGPT;
-import dev.klaytonfacre.screenmusic.services.ArtistService;
-import dev.klaytonfacre.screenmusic.services.UserInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;

@@ -1,11 +1,17 @@
-package dev.klaytonfacre.screenmusic.services;
+package dev.klaytonfacre.screenmusic;
 
-import dev.klaytonfacre.screenmusic.models.ArtistType;
-import dev.klaytonfacre.screenmusic.models.MusicType;
+import dev.klaytonfacre.screenmusic.models.AlbumModel;
+import dev.klaytonfacre.screenmusic.models.MusicModel;
+import dev.klaytonfacre.screenmusic.models.types.ArtistType;
+import dev.klaytonfacre.screenmusic.models.types.MusicType;
+import dev.klaytonfacre.screenmusic.services.AlbumService;
+import dev.klaytonfacre.screenmusic.services.ArtistService;
+import dev.klaytonfacre.screenmusic.services.MusicService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Scanner;
 
 @Component
@@ -80,9 +86,9 @@ public class UserInterface {
         }
     }
 
-        private void createArtistWorkflow() {
+    private void createArtistWorkflow() {
         String creatingName = getSomeStringFromUser("Digite o nome do artista: ");
-        String creatingType = getArtistTypeFromUser();
+        String creatingType = getValidArtistTypeFromUser();
         var artist = artistService.make(creatingName, ArtistType.fromString(creatingType));
         artistService.save(artist);
         System.out.printf("Artista criado com sucesso! ID: %s, %s (%s)\n", artist.getId(), artist.getName(), artist.getType());
@@ -129,12 +135,21 @@ public class UserInterface {
 
     private void searchAlbumWorkflow() {
         String searchAlbumName = getSomeStringFromUser("Digite o nome do álbum para buscar: ");
-        var musics = musicService.searchByAlbum(searchAlbumName);
+        var musics = musicService.searchByAlbum(searchAlbumName).stream()
+                .sorted(Comparator.comparing(m -> m.getAlbum().getId()))
+                .toList();
         if (musics.isEmpty()) {
             System.out.println("Nenhum álbum encontrado com esse nome.");
         } else {
-            System.out.println("Músicas do Álbum: ");
-            musics.forEach(System.out::println);
+            Long lastAlbumId = null;
+            for (MusicModel musicModel : musics) {
+                AlbumModel albumModel = musicModel.getAlbum();
+                if (!albumModel.getId().equals(lastAlbumId)) {
+                    System.out.printf("Músicas do Álbum %s:%n", albumModel.getName());
+                    lastAlbumId = albumModel.getId();
+                }
+                System.out.println(musicModel);
+            }
         }
     }
 
@@ -143,12 +158,11 @@ public class UserInterface {
         return scanner.nextLine();
     }
 
-    private String getArtistTypeFromUser() {
-        System.out.printf("Digite o tipo do artista %s: ", Arrays.toString(ArtistType.values()));
-        String tipo = scanner.nextLine().toUpperCase();
+    private String getValidArtistTypeFromUser() {
+        String prompt = "Digite o tipo do artista %s: ".formatted(Arrays.toString(ArtistType.values()));
+        String tipo = getSomeStringFromUser(prompt).toUpperCase();
         while (!ArtistType.isValidType(tipo)) {
-            System.out.printf("Tipo inválido. Digite novamente %s: ", Arrays.toString(ArtistType.values()));
-            tipo = scanner.nextLine().toUpperCase();
+            tipo = getSomeStringFromUser("Tipo inválido. Digite novamente %s: ".formatted(Arrays.toString(ArtistType.values()))).toUpperCase();
         }
         return tipo;
     }
